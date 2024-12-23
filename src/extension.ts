@@ -5,6 +5,7 @@ import * as debug_provider from './debug-provider';
 import * as assets_provider from './assets-provider';
 import { getWorkspaceScenes } from './workspace-utils';
 import { fixPathForGodot } from './godot-utils';
+import { pickProcess } from './process-picker/pick-process';
 import { findProjectFiles, ProjectLocation, promptForProject } from './project-select';
 
 export let client: Client;
@@ -133,6 +134,11 @@ export async function activate(context: vscode.ExtensionContext) {
 		return vscode.window.showQuickPick(getWorkspaceScenes(client?.getGodotProjectDir()));
 	});
 	context.subscriptions.push(getLaunchSceneCommand);
+
+	const getGodotProcessesCommand = vscode.commands.registerCommand('godot.csharp.getGodotProcesses', () => {
+		return pickProcess();
+	})
+	context.subscriptions.push(getGodotProcessesCommand);
 }
 
 function setupProject(project: ProjectLocation, context: vscode.ExtensionContext) {

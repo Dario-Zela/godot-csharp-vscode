@@ -37,20 +37,31 @@ export function createDebugConfigurationsArray(godotExecutablePath: string | und
 function _createDebugConfigurations(godotExecutablePath: string | undefined): vscode.DebugConfiguration[]
 {
 	return [
-		createPlayInEditorDebugConfiguration(),
 		createLaunchDebugConfiguration(godotExecutablePath),
 		createLaunchDebugConfiguration(godotExecutablePath, true),
+		createAttachDebugConfiguration(true),
 		createAttachDebugConfiguration(),
+		createLaunchEditorDebugConfiguration(godotExecutablePath),
 	];
 }
 
-export function createPlayInEditorDebugConfiguration(): vscode.DebugConfiguration
+export function createLaunchEditorDebugConfiguration(godotExecutablePath: string | undefined): vscode.DebugConfiguration
 {
+	godotExecutablePath = godotExecutablePath ?? '<insert-godot-executable-path-here>';
 	return {
-		name: 'Play in Editor',
-		type: 'godot-mono',
-		mode: 'playInEditor',
-		request: 'launch',
+			name: "Launch in Editor",
+            type: "coreclr",
+            request: "launch",
+            preLaunchTask: "build",
+            program: godotExecutablePath,
+            cwd: "${workspaceFolder}",
+            console: "internalConsole",
+            stopAtEntry: false,
+            args: [
+                "--path",
+                "${workspaceRoot}",
+				"--editor"
+            ]
 	};
 }
 
@@ -59,29 +70,28 @@ export function createLaunchDebugConfiguration(godotExecutablePath: string | und
 	godotExecutablePath = godotExecutablePath ?? '<insert-godot-executable-path-here>';
 	return {
 		name: `Launch${canSelectScene ? ' (Select Scene)' : ''}`,
-		type: 'godot-mono',
-		request: 'launch',
-		mode: 'executable',
-		preLaunchTask: 'build',
-		executable: godotExecutablePath,
-		'OS-COMMENT1': 'See which arguments are available here:',
-		'OS-COMMENT2': 'https://docs.godotengine.org/en/stable/getting_started/editor/command_line_tutorial.html',
-		executableArguments: [
-			'--path',
-			'${workspaceRoot}',
-			...(canSelectScene ? ['${command:SelectLaunchScene}'] : []),
-		],
+		type: "coreclr",
+		program: godotExecutablePath,
+		request: "launch",
+		preLaunchTask: "build",
+		cwd: "${workspaceFolder}",
+		console: "internalConsole",
+		stopAtEntry: false,
+		args: [
+			"--path",
+			"${workspaceRoot}",
+			...(canSelectScene ? ['${command:godot.csharp.getLaunchScene}'] : []),
+		]
 	};
 }
 
-export function createAttachDebugConfiguration()
+export function createAttachDebugConfiguration(filterProjects: boolean = false): vscode.DebugConfiguration
 {
 	return {
-		name: 'Attach',
-		type: 'godot-mono',
+		name: `Attach${filterProjects ? ' (Godot Instance)' : ''}`,
+		type: 'coreclr',
 		request: 'attach',
-		address: 'localhost',
-		port: 23685,
+		processId: (filterProjects ? '${command:godot.csharp.getGodotProcesses}' : '${command:pickProcess}'),
 	};
 }
 

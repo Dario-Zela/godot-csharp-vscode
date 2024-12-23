@@ -14,12 +14,14 @@ export function createTasksConfiguration(godotExecutablePath: string | undefined
 
 export function createBuildTaskDescription(godotExecutablePath: string | undefined): tasks.TaskDescription
 {
-	godotExecutablePath = godotExecutablePath ?? '<insert-godot-executable-path-here>';
+	//godotExecutablePath = godotExecutablePath ?? '<insert-godot-executable-path-here>';
 	return {
 		label: 'build',
-		command: godotExecutablePath,
-		type: 'process',
-		args: ['--build-solutions', '--path', '${workspaceRoot}', '--no-window', '-q'],
+		command: "dotnet",
+		type: 'shell',
+		args: ['build', '/property:GenerateFullPaths=true', '/consoleloggerparameters:NoSummary'],
+		group: { kind: 'build', isDefault: true },
+		presentation: {reveal: 'silent'},
 		problemMatcher: '$msCompile',
 	};
 }

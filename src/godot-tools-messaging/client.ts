@@ -533,7 +533,7 @@ enum MessageDecoderState {
     Errored
 }
 
-function tryParseEnumCaseInsensitive<T>(enumObj: T, value: string): T[keyof T] | undefined {
+function tryParseEnumCaseInsensitive<T extends object>(enumObj: T, value: string): T[keyof T] | undefined {
     let key = Object.keys(enumObj).find(key => key.toLowerCase() === value.toLowerCase());
     if (key === undefined) {
         return undefined;

@@ -20,7 +20,7 @@ export function createBuildTaskDescription(godotExecutablePath: string | undefin
 		command: "dotnet",
 		type: 'shell',
 		args: ['build', '/property:GenerateFullPaths=true', '/consoleloggerparameters:NoSummary'],
-		group: { kind: 'build', isDefault: true },
+		group: 'build',
 		presentation: {reveal: 'silent'},
 		problemMatcher: '$msCompile',
 	};

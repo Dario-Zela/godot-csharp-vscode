@@ -13,7 +13,7 @@ Debugger and utilities for working with Godot C# projects in VSCode. A fork of t
 - Additional code completion for Node paths, Input actions, Resource paths, Scene paths and Signal names.
 
 **NOTES:**
-- A running Godot instance must be editing the project in order for `Play in Editor` and the code completion to work.
+- This reuses most of the original code, as such any new features will not be found in code completion.
 - Node path suggestions are provided from the currently edited scene in the Godot editor.
 - Currently Signal suggestions are only provided using the information from the project build
 results, not from the information in the edited document. This will change in the future.

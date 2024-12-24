@@ -1,10 +1,10 @@
 # C# Tools for Godot
 
-Debugger and utilities for working with Godot C# projects in VSCode.
+Debugger and utilities for working with Godot C# projects in VSCode. A fork of the original version to allow for the launch and task JSON files with newer versions of Godot.
 
 ## Requirements
 
-**Godot  >= 3.2.2 and < 4.0**. Older versions of Godot or **4.0** and higher are not supported.
+**Godot  >= 4.0**. Older versions of Godot or are not supported.
 
 ## Features
 
